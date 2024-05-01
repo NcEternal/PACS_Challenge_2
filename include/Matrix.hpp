@@ -47,7 +47,7 @@ public:
 	Matrix(std::size_t r, std::size_t c) : m_rows(r), m_cols(c) {}
 
 	/*Access*/
-	inline ValueType& operator() (std::size_t i, std::size_t j);		//NEEDS CHECKING
+	inline ValueType& operator() (std::size_t i, std::size_t j);
 	inline ValueType operator() (std::size_t i, std::size_t j) const;
 
 	/*Compression and Decompression*/
@@ -118,7 +118,7 @@ public:
 
 
 
-/*** NON-CONST ACCESS ***/	//NEEDS CHECKING
+/*** NON-CONST ACCESS ***/
 template <Number ValueType, Ordering OrderType>
 ValueType& Matrix<ValueType, OrderType>::operator() (std::size_t i, std::size_t j) {
 	
