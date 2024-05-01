@@ -16,15 +16,15 @@ The class implements the following methods:
 
 * A constructor that takes as arguments the number of rows and columns of the matrix;
 
-* `ValueType& operator() (std::size_t i, std::size_t j)`: the random access operator, which takes the indices of the element as input arguments. 
-If the matrix is in its compressed state, this operator **cannot** return elements equal to 0;
+* `ValueType& operator() (std::size_t i, std::size_t j)`: the random access operator, which takes the indices of the element as input arguments.
+Out of bounds access will throw a `std::runtime_error`, as will attempting to access elements equal to 0 while the matrix is compressed;
 
-* `ValueType operator() (std::size_t i, std::size_t j) const`: the constant version of the random access operator, which takes the indices of the element as input arguments. 
-If the matrix is in its compressed state, this operator **can** return elements equal to 0;
+* `ValueType operator() (std::size_t i, std::size_t j) const`: the constant version of the random access operator, which takes the indices of the element as input 
+arguments. Out of bounds access will return `std::numeric_limits<ValueType>::quiet_NaN()`;
 
-* `void compress()`: puts the matrix in its compressed state if it isn't already;
+* `void compress()`: puts the matrix in its compressed state;
 
-* `void uncompress()`: puts the matrix in its uncompressed state if it isn't already;
+* `void uncompress()`: puts the matrix in its uncompressed state;
 
 * `void resize(std::size_t new_rows, std::size_t new_cols)`: uncompresses and resizes the matrix to match the new dimensions;
 
@@ -44,8 +44,10 @@ Other supported norms are Norm::One and Norm::Infinity;
 The class also implements the following operators:
 
 * `operator*`: Matrix-Vector multiplication (with a `std::vector`) or Matrix-Matrix multiplication (with another `Matrix`). The 2 objects being multiplied 
-must have compatible sizes and share `ValueType`. `ValueType` is shared even if one of the 2 objects uses `std::complex<ValueType>`
-(example: `Matrix<double, Ordering::RowMajor> * std::vector<std::complex<double>>`);
+must have compatible sizes and share `ValueType`. `ValueType` is considered shared even if one of the 2 objects uses `std::complex<ValueType>`
+(example: `Matrix<double, Ordering::RowMajor> * std::vector<std::complex<double>>`). <br> 
+The result will be a `std::vector<T>` with the appropriate T in the case of Matrix-Vector multplication and a `Matrix<T, O>` with the appropriate `ValueType` T 
+and the same `OrderType` O as the matrix to the left of the operator in the case of Matrix-Matrix multiplication;
 
 * `operator<<`: the streaming operator to output the matrix to a stream object;
 
