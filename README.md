@@ -1,2 +1,61 @@
-# PACS_Challenge_2
-Second PACS Challenge
+# Challenge 2 A sparse matrix #
+
+Solution to the $2^{nd}$ PACS challenge. Implementation of a sparse matrix class.
+
+The makefile produces an executable called `test`, which collects multiple tests of the class functionalities.
+
+
+## The Matrix Class ##
+
+The class `Matrix` is implemented in the `algebra` namespace. It is a template class with parameters
+`ValueType`, which must be a numeric (integral/floating point/complex<T>), and `OrderType`, which can be
+either `Ordering::RowMajor` or `Ordering::ColumnMajor`. <br>
+The class implements the following methods:
+
+* A default constructor;
+
+* A constructor that takes as arguments the number of rows and columns of the matrix;
+
+* `ValueType& operator() (std::size_t i, std::size_t j)`: the random access operator, which takes the indices of the element as input arguments. 
+If the matrix is in its compressed state, this operator **cannot** return elements equal to 0;
+
+* `ValueType operator() (std::size_t i, std::size_t j) const`: the constant version of the random access operator, which takes the indices of the element as input arguments. 
+If the matrix is in its compressed state, this operator **can** return elements equal to 0;
+
+* `void compress()`: puts the matrix in its compressed state if it isn't already;
+
+* `void uncompress()`: puts the matrix in its uncompressed state if it isn't already;
+
+* `void resize(std::size_t new_rows, std::size_t new_cols)`: uncompresses and resizes the matrix to match the new dimensions;
+
+* `template <Norm NormType> double norm() const`: a template method to calculate the norm of the matrix. The default template parameter is Norm::Frobenius. 
+Other supported norms are Norm::One and Norm::Infinity;
+
+* `bool is_compressed() const`: returns the current state of the matrix;
+
+* `std::size_t rows() const`: returns the current number of rows of the matrix;
+
+* `std::size_t cols() const`: returns the current number of columns of the matrix;  
+
+* `get_row(std:.size_t i) const`: returns the i-th row as a `std::map<std::size_t, ValueType>`, with the key in this map representing the element's column;
+
+* `get_col(std:.size_t j) const`: returns the j-th column as a `std::map<std::size_t, ValueType>`, with the key in this map representing the element's row.
+
+The class also implements the following operators:
+
+* `operator*`: Matrix-Vector multiplication (with a `std::vector`) or Matrix-Matrix multiplication (with another `Matrix`). The 2 objects being multiplied 
+must have compatible sizes and share `ValueType`. `ValueType` is shared even if one of the 2 objects uses `std::complex<ValueType>`
+(example: `Matrix<double, Ordering::RowMajor> * std::vector<std::complex<double>>`);
+
+* `operator<<`: the streaming operator to output the matrix to a stream object;
+
+* `operator==`: a rudimentary comparison operator. Can only compare matrices with the exact same `ValueType` and `OrderType` and only if they are in the same
+compression state.
+
+To help compilation, the instatiation of `Matrix<double, Ordering::RowMajor>`, `Matrix<double, Ordering::ColumnMajor>`, 
+`Matrix<std::complex<double>, Ordering::RowMajor>` and `Matrix<std::complex<double>, Ordering::ColumnMajor>` is placed in the file `common_matrix_types.cpp`.
+
+## Matrix Market Reader ##
+
+The code comes with a `template<Ordering O> mm_reader(std::string filename)` function, which reads a file in the *MatrixMarket matrix coordinate real general* 
+format and returns a `Matrix<double, O>`. By default, the template argument is `Ordering::RowMajor`
