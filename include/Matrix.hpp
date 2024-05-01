@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <limits>
 #include <cmath>
+#include <exception>
 #include <iostream>
 
 namespace algebra {
@@ -124,7 +125,7 @@ ValueType& Matrix<ValueType, OrderType>::operator() (std::size_t i, std::size_t 
 	/*Check Index Bounds*/
 	if (i >= m_rows || j >= m_cols) {
 		std::cerr << "ERROR: Index out of bounds" << std::endl;
-		return Matrix(1, 1)(0, 0);
+		throw std::runtime_error("Out of bounds access with non constant operator()");
 	}
 	
 	/*Uncompressed Case*/
@@ -146,7 +147,7 @@ ValueType& Matrix<ValueType, OrderType>::operator() (std::size_t i, std::size_t 
 
 	/*Error if trying to access a 0 element in compressed state*/
 	std::cerr << "ERROR: Cannot change value of a 0 element in compressed state" << std::endl;
-	return Matrix(1, 1)(0, 0);
+	throw std::runtime_error("Attempted change of 0 element in compressed matrix");
 
 }
 

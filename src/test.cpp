@@ -99,7 +99,8 @@ int main(int argc, char** argv) {
 	std::cout << "(3, 2): " << m2(3, 2) << "\n\n";
 
 	std::cout << "Out of bounds access:\n";
-	std::cout << m2(100, 100) << "\n\n";
+	std::cout << static_cast<const Matrix<double, Ordering::ColumnMajor>>(m2)(100, 100) << "\n\n";	//operator<< would use the non-const version without the cast and thus
+																									//would print an error since m(100, 100) is out of bounds, so I can't return a reference to it.
 
 	std::cout << "Change Value in Compressed State:\n";
 	m2(0, 0) = 10;
@@ -173,7 +174,6 @@ int main(int argc, char** argv) {
 	mi(1, 0) = std::complex<double>(0.5, 0.4);
 	
 	std::cout << "Complex Matrix:\n" << mi;
-
 
 	std::cout << "Complex M * Complex V:\t";
 	auto resii = mi * vi;
@@ -266,6 +266,8 @@ int main(int argc, char** argv) {
 	std::vector<double> v_test(test_un.cols(), 1);
 	std::vector<std::complex<double>> vi_test(test_un.cols(), std::complex<double>(1, 1));
 	Timings::Chrono watch;
+
+	std::cout << "Matrix Sizes:\nRows: " << test_un.rows() << "\nColumns: " << test_un.cols();
 
 	watch.start();
 	auto wow = test_un * v_test;
@@ -392,7 +394,7 @@ int main(int argc, char** argv) {
 	std::cout << "\n\n" << std::boolalpha << "Check Result Equality: " << ((wow5 == wow6) && (wow6 == wow7) && (wow7 == wow8) && (wow13 == wow14) && (wow14 == wow15) && (wow15 == wow16) && (wow5 == wow16)) << " "
 																	   << ((wow9 == wow10) && (wow10 == wow11) && (wow11 == wow12) && (wow17 == wow18) && (wow18 == wow19) && (wow19 == wow20) && (wow9 == wow20)) << "\n";
 
-	std::cout << "\nNorm Timings\n";
+	std::cout << "\n\n\n**** Norm Timings ****\n";
 
 	std::cout << "\nNorm One Uncompressed:\n";
 
