@@ -125,7 +125,7 @@ ValueType& Matrix<ValueType, OrderType>::operator() (std::size_t i, std::size_t 
 	/*Check Index Bounds*/
 	if (i >= m_rows || j >= m_cols) {
 		std::cerr << "ERROR: Index out of bounds" << std::endl;
-		throw std::runtime_error("Out of bounds access with non constant operator()");
+		throw std::runtime_error("Out of bounds access");
 	}
 	
 	/*Uncompressed Case*/
@@ -160,7 +160,7 @@ ValueType Matrix<ValueType, OrderType>::operator() (std::size_t i, std::size_t j
 	/*Check Index Bounds*/
 	if (i >= m_rows || j >= m_cols) {
 		std::cerr << "ERROR: Index out of bounds" << std::endl;
-		return std::numeric_limits<ValueType>::quiet_NaN();
+		throw std::runtime_error("Out of bounds access");
 	}
 
 	/*Uncompressed Case*/

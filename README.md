@@ -20,7 +20,7 @@ The class implements the following methods:
 Out of bounds access will throw a `std::runtime_error`, as will attempting to access elements equal to 0 while the matrix is compressed;
 
 * `ValueType operator() (std::size_t i, std::size_t j) const`: the constant version of the random access operator, which takes the indices of the element as input 
-arguments. Out of bounds access will return `std::numeric_limits<ValueType>::quiet_NaN()`;
+arguments. Out of bounds access will throw a `std::runtime_error`;
 
 * `void compress()`: puts the matrix in its compressed state;
 

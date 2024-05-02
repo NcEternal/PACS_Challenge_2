@@ -98,10 +98,6 @@ int main(int argc, char** argv) {
 	std::cout << "Random Access To Non 0 Element Compressed:\n";
 	std::cout << "(3, 2): " << m2(3, 2) << "\n\n";
 
-	std::cout << "Out of bounds access:\n";
-	std::cout << static_cast<const Matrix<double, Ordering::ColumnMajor>>(m2)(100, 100) << "\n\n";	//operator<< would use the non-const version without the cast and thus
-																									//would print an error since m(100, 100) is out of bounds, so I can't return a reference to it.
-
 	std::cout << "Change Value in Compressed State:\n";
 	m2(0, 0) = 10;
 	std::cout << m2;
