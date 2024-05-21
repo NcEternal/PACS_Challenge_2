@@ -1,0 +1,11 @@
+- Documentation is complete
+
+- slow compilation
+
+- Frobenius norm and matrix-vector products are different in row and column major cases
+    The correct ones are the output by row
+
+- use for loops to repeat the tests many times!
+
+- you don't need to define specializations of the operator* for every template type, you can define one taking into account the different possibilities
+ 
