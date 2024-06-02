@@ -3,7 +3,8 @@
 - slow compilation
 
 - Frobenius norm and matrix-vector products are different in row and column major cases
-    The correct ones are the output by row
+    The correct ones are the output by row (The RowMajor and ColumnMajor matrices in the test executable are 
+    very slightly different, so the different output is to be expected. Sorry if that wasn't clear)
 
 - use for loops to repeat the tests many times!
 
